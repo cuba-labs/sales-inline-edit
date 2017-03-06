@@ -29,7 +29,9 @@ public class OrderEdit extends AbstractEditor<Order> {
     private void calculateAmount() {
         BigDecimal amount = BigDecimal.ZERO;
         for (OrderLine line : linesDs.getItems()) {
-            line.setTotal(line.getProduct().getPrice().multiply(line.getQuantity()));
+            BigDecimal total = line.getProduct().getPrice().multiply(line.getQuantity())
+                    .setScale(2, BigDecimal.ROUND_HALF_UP); // always set scale to the same as defined in the database to avoid modification of the datasource after commit
+            line.setTotal(total);
             amount = amount.add(line.getTotal());
         }
         getItem().setAmount(amount);

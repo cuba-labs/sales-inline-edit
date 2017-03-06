@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://editCaption"
+        class="com.company.sales.gui.order.OrderEdit"
+        datasource="orderDs"
+        focusComponent="fieldGroup"
+        messagesPack="com.company.sales.gui.order">
+    <dsContext>
+        <datasource id="orderDs"
+                    class="com.company.sales.entity.Order"
+                    view="order-edit">
+            <collectionDatasource id="linesDs"
+                                  property="lines"/>
+        </datasource>
+    </dsContext>
+    <layout expand="windowActions"
+            spacing="true">
+        <fieldGroup id="fieldGroup"
+                    datasource="orderDs">
+            <column width="250px">
+                <field id="date"/>
+                <field id="amount"
+                       editable="false"/>
+                <field id="customer"/>
+            </column>
+        </fieldGroup>
+        <groupBox id="linesBox"
+                  caption="msg://com.company.sales.entity/Order.lines">
+            <table id="linesTable"
+                   editable="true"
+                   height="200px"
+                   width="100%">
+                <actions>
+                    <action id="remove"/>
+                </actions>
+                <columns>
+                    <column id="product.name"/>
+                    <column id="product.price"/>
+                    <column id="quantity"
+                            editable="true"/>
+                    <column id="total"/>
+                </columns>
+                <rows datasource="linesDs"/>
+                <buttonsPanel>
+                    <button id="createAction"
+                            caption="Create"
+                            invoke="createOrderLine"/>
+                    <button action="linesTable.remove"/>
+                </buttonsPanel>
+            </table>
+        </groupBox>
+        <frame id="windowActions"
+               screen="editWindowActions"
+               stylename="window-actions"/>
+    </layout>
+</window>
